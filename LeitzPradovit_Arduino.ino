@@ -7,6 +7,8 @@ LiquidCrystal_I2C lcd(0x27,16,2);
 
 int left=12;
 int right=13;
+int advanceDelay=14;
+int highRef=15;
 
 void setup() {
   Serial.begin(4800);
@@ -15,11 +17,14 @@ void setup() {
   Serial.println("Leitz Pradovit Begain");
   pinMode(left,OUTPUT);
   pinMode(right,OUTPUT);
+  pinMode(advanceDelay,INPUT);
+  pinMode(highRef,OUTPUT);
   lcd.init(); // initialize the lcd 
   lcd.backlight(); //Open the backlight
   lcd.print("Leitz Pradovit"); // Print a message to the LCD.
   lcd.setCursor(0,1); //newline
   lcd.print("Initialized");// Print a message to the LCD
+  digitalWrite(highRef,HIGH);
 }
 
 void loop() {
@@ -27,6 +32,10 @@ void loop() {
   char l='1';
   char r='2';
   
+  
+  if (advanceDelay==HIGH){
+   delay(1000); 
+  }
   
   if (altSerial.available()) {
     c = altSerial.read();
