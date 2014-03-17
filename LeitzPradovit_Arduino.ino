@@ -29,45 +29,70 @@ void setup() {
 
 void loop() {
   char c;
+  char cmd;
   char l='1';
   char r='2';
-  
   
   if (advanceDelay==HIGH){
    delay(1000); 
   }
   
-  if (altSerial.available()) {
-    c = altSerial.read();
-      lcd.setCursor(0,1); //newline
+  if (altSerial.available()){
+    cmd=altSerial.read();
+          lcd.setCursor(0,1); //newline
       lcd.print("Focusing!");
+    switch (cmd){
+    case '1':
     
-    Serial.print(c);
-    if (c==l){
-
       Serial.print("left");
       digitalWrite(left,HIGH);
       digitalWrite(right,LOW);
-//      lcd.setCursor(0,0); //newline
-//      lcd.print("Motor Left");
-    }
-    else if(c==r)
-    {
-
+    case '2':
       Serial.print("right");
       digitalWrite(left,LOW);
       digitalWrite(right,HIGH);
-//      lcd.setCursor(0,1); //newline
-//      lcd.print("Motor Right");
-    }
-    else 
-    {
-
+    
+    default:
+    
       Serial.print("stop");
       digitalWrite(left,LOW);
       digitalWrite(right,LOW);
-      lcd.setCursor(0,1); //newline
-//      lcd.print("Focused");
-    }
+      lcd.setCursor(0,1);
+  }
   }
 }
+  
+//  if (altSerial.available()) {
+//    c = altSerial.read();
+//      lcd.setCursor(0,1); //newline
+//      lcd.print("Focusing!");
+//    
+//    Serial.print(c);
+//    if (c==l){
+//
+//      Serial.print("left");
+//      digitalWrite(left,HIGH);
+//      digitalWrite(right,LOW);
+////      lcd.setCursor(0,0); //newline
+////      lcd.print("Motor Left");
+//    }
+//    else if(c==r)
+//    {
+//
+//      Serial.print("right");
+//      digitalWrite(left,LOW);
+//      digitalWrite(right,HIGH);
+////      lcd.setCursor(0,1); //newline
+////      lcd.print("Motor Right");
+//    }
+//    else 
+//    {
+//
+//      Serial.print("stop");
+//      digitalWrite(left,LOW);
+//      digitalWrite(right,LOW);
+//      lcd.setCursor(0,1); //newline
+////      lcd.print("Focused");
+//    }
+//  }
+
