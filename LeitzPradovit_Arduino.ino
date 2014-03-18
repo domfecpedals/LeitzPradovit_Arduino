@@ -17,18 +17,23 @@ void setup() {
   Serial.println("Leitz Pradovit Begain");
   pinMode(left,OUTPUT);
   pinMode(right,OUTPUT);
+  
+  
   pinMode(advanceDelay,INPUT);
   pinMode(highRef,OUTPUT);
+  
+  
   lcd.init(); // initialize the lcd 
   lcd.backlight(); //Open the backlight
   lcd.print("Leitz Pradovit"); // Print a message to the LCD.
   lcd.setCursor(0,1); //newline
   lcd.print("Initialized");// Print a message to the LCD
-  
+  digitalWrite(highRef,HIGH);
 }
 
 void loop() {
-  digitalWrite(highRef,HIGH);
+  
+  
   char c;
   char cmd;
   char l='1';
@@ -39,20 +44,28 @@ void loop() {
   
   
   if (altSerial.available()) {
-      c = altSerial.read();
+
+     //Read command 
+     c = altSerial.read(); 
+    
+     
+     if (state==1){
+     digitalWrite(left,LOW);
+     digitalWrite(right,LOW);
+     delay(2000); 
+     digitalWrite(left,HIGH);
+     digitalWrite(right,LOW);
+     delay(500);
+     //read command
+     c = altSerial.read();
+     //stop motor
+     digitalWrite(left,LOW);
+     digitalWrite(right,LOW);
+    }
+    
       lcd.setCursor(0,1); //newline
       lcd.print("Focusing!");
       Serial.print(c);
-    
-    
-     if (state==1){
-   digitalWrite(left,LOW);
-   digitalWrite(right,LOW);
-   delay(2000); 
-   digitalWrite(left,HIGH);
-   digitalWrite(right,LOW);
-   delay(500);
-  }
   
     if (c==l){
 
